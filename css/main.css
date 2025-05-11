@@ -1,0 +1,74 @@
+﻿.blackline {
+    height: 7px;
+    width:100%;
+    background-color: #000000;
+}
+.DOMElementStyle{
+    width: auto;
+
+}
+.parent-container {
+    display:flex;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.rowFlex {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0px;
+}
+
+.allBuildingErea{
+    display: flex;
+    justify-content: space-around;
+    width: auto;
+}
+.columFlex {
+    justify-content: space-between;
+    display: flex;
+    height: 100%;
+    width: auto;
+    flex-direction: column;
+}
+
+.elevator-management {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 5px;
+    position: relative;
+    width: auto;
+}
+
+.elevatorStyle {
+    height: "110px";
+    width: "110px";
+    position: absolute;
+}
+
+.ArrivalDisplay {
+    margin-left: 5px;
+    height: 45px; /* Use pixel value without quotes */
+    width: 70px; /* Use pixel value without quotes */
+    display: flex; /* Use "display: flex;" to enable flexbox */
+    color: red; /* Text color */
+    border: 5px inset rgb(149, 176, 175); /* Border style */
+    border-radius: 25%;
+    background-color: #000000; /* Background color */
+    justify-content: center; /* Center horizontally */
+    align-items: center;
+    font-family: 'Seven Segment', sans-serif;
+}
+
+p {
+    text-align: center;
+    font-weight: bold;
+    font-size: 35px; /* Font size */
+    line-height: 1.5; /* Line height (spacing between lines) */
+}
