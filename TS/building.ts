@@ -41,9 +41,10 @@ class Building {
 
 
 
-    getOrder = (floorNum: number): number | false => {
-        return this.elevatorManagement.getOrder(floorNum);
+    getOrder = (floorNum: number, onArrival: () => void): number | false => {
+        return this.elevatorManagement.getOrder(floorNum, onArrival);
     }
+    
 
     appFloors = (): void => {
         this.floorsarea.classList.add("columFlex");

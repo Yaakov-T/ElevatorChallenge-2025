@@ -1,7 +1,12 @@
+type Destination = {
+    floor: number;
+    onArrival: () => void;
+};
+
 class Elevator {
     private elevatorElement: HTMLImageElement;
     private audioElement: HTMLAudioElement;
-    private destinationQueue: number[] = [];
+    private destinationQueue: Destination[] = [];
     private currentFloor: number = 0;
     private xPosition: number = 0;
     private isRunning: boolean = false;
@@ -29,16 +34,16 @@ class Elevator {
     }
 
     including(floor: number): boolean {
-        return this.destinationQueue.includes(floor);
+        return this.destinationQueue.some(dest => dest.floor === floor);
     }
 
-    addNewFloor(floor: number): number {
+    addNewFloor(floor: number, onArrival: () => void): number {
         if (!this.including(floor)) {
             const estimatedArrivalTime = this.calculateArrivalTime(floor);
-            this.destinationQueue.push(floor);
+            this.destinationQueue.push({ floor, onArrival });
 
             if (!this.isRunning) {
-                this.move(); // מתחיל תנועה אם לא רצה כבר
+                this.move(); 
             }
 
             return estimatedArrivalTime;
@@ -58,7 +63,7 @@ class Elevator {
         let time = 0;
         let lastFloor = this.currentFloor;
 
-        for (const queuedFloor of this.destinationQueue) {
+        for (const { floor: queuedFloor } of this.destinationQueue) {
             time += Math.abs(queuedFloor - lastFloor) * 0.5;
             time += Settings.getInstance().secondsToStay;
             lastFloor = queuedFloor;
@@ -72,7 +77,7 @@ class Elevator {
         this.isRunning = true;
 
         while (this.destinationQueue.length > 0) {
-            const nextFloor = this.destinationQueue.shift()!;
+            const { floor: nextFloor, onArrival } = this.destinationQueue.shift()!;
             const floorsToMove = Math.abs(this.currentFloor - nextFloor);
             const seconds = floorsToMove * 0.5;
             const targetPosition = nextFloor * 120;
@@ -86,6 +91,9 @@ class Elevator {
             this.xPosition = targetPosition;
 
             await this.openDoor();
+
+            onArrival(); // ← כאן קוראים לפונקציה שהגיעה מהמזמין
+
             this.closeDoor();
         }
 

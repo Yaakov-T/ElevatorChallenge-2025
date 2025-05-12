@@ -33,14 +33,14 @@ class Elevator {
         parent.appendChild(this.elevatorElement);
     }
     including(floor) {
-        return this.destinationQueue.includes(floor);
+        return this.destinationQueue.some(dest => dest.floor === floor);
     }
-    addNewFloor(floor) {
+    addNewFloor(floor, onArrival) {
         if (!this.including(floor)) {
             const estimatedArrivalTime = this.calculateArrivalTime(floor);
-            this.destinationQueue.push(floor);
+            this.destinationQueue.push({ floor, onArrival });
             if (!this.isRunning) {
-                this.move(); // מתחיל תנועה אם לא רצה כבר
+                this.move();
             }
             return estimatedArrivalTime;
         }
@@ -55,7 +55,7 @@ class Elevator {
     calculateArrivalTime(floor) {
         let time = 0;
         let lastFloor = this.currentFloor;
-        for (const queuedFloor of this.destinationQueue) {
+        for (const { floor: queuedFloor } of this.destinationQueue) {
             time += Math.abs(queuedFloor - lastFloor) * 0.5;
             time += Settings.getInstance().secondsToStay;
             lastFloor = queuedFloor;
@@ -67,7 +67,7 @@ class Elevator {
         return __awaiter(this, void 0, void 0, function* () {
             this.isRunning = true;
             while (this.destinationQueue.length > 0) {
-                const nextFloor = this.destinationQueue.shift();
+                const { floor: nextFloor, onArrival } = this.destinationQueue.shift();
                 const floorsToMove = Math.abs(this.currentFloor - nextFloor);
                 const seconds = floorsToMove * 0.5;
                 const targetPosition = nextFloor * 120;
@@ -77,6 +77,7 @@ class Elevator {
                 this.currentFloor = nextFloor;
                 this.xPosition = targetPosition;
                 yield this.openDoor();
+                onArrival(); // ← כאן קוראים לפונקציה שהגיעה מהמזמין
                 this.closeDoor();
             }
             this.isRunning = false;

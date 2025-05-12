@@ -16,22 +16,25 @@ class ElevatorMenagment {
         return this.ElevatorsArea;
     }
     
-    getOrder = (floor: number): number | false =>{
+    getOrder = (floor: number, onArrival: () => void): number | false => {
         let minTime: number = this.elevators[0].checkTimeWithFloor(floor);
         let elevatorIndex = 0;
+    
         for (let i = 1; i < this.elevators.length; ++i) {
             if (this.elevators[i].including(floor)) {
                 return false;
             }
-            const time: number = this.elevators[i].checkTimeWithFloor(floor)
+    
+            const time: number = this.elevators[i].checkTimeWithFloor(floor);
             if (time < minTime) {
                 minTime = time;
                 elevatorIndex = i;
             }
         }
-
-        return this.elevators[elevatorIndex].addNewFloor(floor);
+    
+        return this.elevators[elevatorIndex].addNewFloor(floor, onArrival);
     }
+    
 
     appendToParent = (parent: HTMLElement): void => {
         this.elevators.forEach((elevator, i) => {

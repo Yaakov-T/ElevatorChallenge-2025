@@ -1,7 +1,7 @@
 "use strict";
 class ElevatorMenagment {
     constructor() {
-        this.getOrder = (floor) => {
+        this.getOrder = (floor, onArrival) => {
             let minTime = this.elevators[0].checkTimeWithFloor(floor);
             let elevatorIndex = 0;
             for (let i = 1; i < this.elevators.length; ++i) {
@@ -14,7 +14,7 @@ class ElevatorMenagment {
                     elevatorIndex = i;
                 }
             }
-            return this.elevators[elevatorIndex].addNewFloor(floor);
+            return this.elevators[elevatorIndex].addNewFloor(floor, onArrival);
         };
         this.appendToParent = (parent) => {
             this.elevators.forEach((elevator, i) => {

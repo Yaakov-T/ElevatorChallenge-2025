@@ -31,7 +31,8 @@ class SingleFloor {
     }
 
     getOrder = (): void => {
-        const display: number | false = this.parent.getOrder(this.FloorNumber);
+        const display: number | false = this.parent.getOrder(this.FloorNumber, this.freeButton);
+
         if (display || display === 0) {
             this.setDisplay(display);
             this.elevatorCallButton.lockButton();

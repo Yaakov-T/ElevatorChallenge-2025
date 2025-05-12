@@ -19,8 +19,8 @@ class Building {
             }
             return floors;
         };
-        this.getOrder = (floorNum) => {
-            return this.elevatorManagement.getOrder(floorNum);
+        this.getOrder = (floorNum, onArrival) => {
+            return this.elevatorManagement.getOrder(floorNum, onArrival);
         };
         this.appFloors = () => {
             this.floorsarea.classList.add("columFlex");
