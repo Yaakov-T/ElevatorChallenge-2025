@@ -1,4 +1,5 @@
-"use strict";
+import { Settings } from './settings.js';
+import { Factory } from './factory.js';
 let system;
 let sett = Settings.getInstance();
 const DOMElementStyle = (DOMElement) => {

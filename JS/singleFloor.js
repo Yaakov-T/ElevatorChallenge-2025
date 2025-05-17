@@ -1,41 +1,41 @@
-"use strict";
-class SingleFloor {
-    constructor(Parent, floorNumber) {
-        this.SingleFloor = document.createElement('div');
-        this.setDisplay = (time) => {
-            this.arrivalDisplay.setTime(time);
-        };
-        this.getOrder = () => {
-            const display = this.parent.getOrder(this.FloorNumber, this.freeButton);
-            if (display || display === 0) {
-                this.setDisplay(display);
-                this.elevatorCallButton.lockButton();
-            }
-        };
+import { Settings } from './settings.js';
+import { Factory } from './factory.js';
+export class SingleFloor {
+    constructor(parent, floorNumber) {
+        this.floorElement = document.createElement('div');
         this.freeButton = () => {
             this.elevatorCallButton.freeButton();
         };
-        this.appendToParent = (parent) => {
-            // Append elements to the singleFloor container
-            this.blackLine.appendToParent(this.singleFloor);
-            this.floorSpace.appendToParent(this.singleFloor);
-            this.elevatorCallButton.appendToParent(this.floorSpace.floorSpace); // Append button to floorSpace
-            this.arrivalDisplay.appendToParent(this.floorSpace.floorSpace); // Append display to floorSpace
-            // Append singleFloor container to the specified parent element
-            parent.appendChild(this.singleFloor);
-        };
-        this.parent = Parent;
+        this.parent = parent;
         this.settings = Settings.getInstance();
-        this.FloorNumber = floorNumber;
-        this.arrivalDisplay = Factory.getInstance().create("ArrivalDisplay", this);
-        this.elevatorCallButton = Factory.getInstance().create("ElevatorButton", this);
-        this.blackLine = Factory.getInstance().create("Line", null);
-        this.floorSpace = Factory.getInstance().create("FloorSpace", null);
+        this.floorNumberValue = floorNumber;
+        const factory = Factory.getInstance();
+        this.arrivalDisplay = factory.create("ArrivalDisplay", this);
+        this.elevatorCallButton = factory.create("ElevatorButton", this);
+        this.blackLine = factory.create("Line", null);
+        this.floorSpace = factory.create("FloorSpace", null);
     }
     get floorNumber() {
-        return this.FloorNumber;
+        return this.floorNumberValue;
     }
     get singleFloor() {
-        return this.SingleFloor;
+        return this.floorElement;
+    }
+    setDisplay(time) {
+        this.arrivalDisplay.setTime(time);
+    }
+    getOrder() {
+        const displayTime = this.parent.getOrder(this.floorNumberValue, this.freeButton);
+        if (displayTime || displayTime === 0) {
+            this.setDisplay(displayTime);
+            this.elevatorCallButton.lockButton();
+        }
+    }
+    appendToParent(parent) {
+        this.blackLine.appendToParent(this.floorElement);
+        this.floorSpace.appendToParent(this.floorElement);
+        this.elevatorCallButton.appendToParent(this.floorSpace.floorSpace);
+        this.arrivalDisplay.appendToParent(this.floorSpace.floorSpace);
+        parent.appendChild(this.floorElement);
     }
 }

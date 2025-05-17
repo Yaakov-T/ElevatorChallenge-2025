@@ -1,73 +1,75 @@
-class Building {
-    private currentBuilding: HTMLDivElement;
-    private floorsarea: HTMLDivElement;
-    private floors: SingleFloor[];
-    private elevatorManagement: ElevatorMenagment;
+import { SingleFloor } from './singleFloor.js';
+import { ElevatorMenagment } from './elevator_menagment.js';
+import { Factory } from './factory.js';
+import { Settings } from './settings.js';
+
+export class Building {
+    private readonly currentBuilding: HTMLDivElement;
+    private readonly floorsArea: HTMLDivElement;
+    private readonly floors: SingleFloor[];
+    private readonly elevatorManagement: ElevatorMenagment;
 
     constructor() {
-        this.floorsarea = document.createElement("div");
-        this.currentBuilding = this.createBuild();
-        this.elevatorManagement = this.createElevatorMenage();
+        this.floorsArea = document.createElement("div");
+        this.currentBuilding = this.createBuildingElement();
+        this.elevatorManagement = this.createElevatorManagement();
         this.floors = this.createFloors();
     }
 
-
-    private createBuild = (): HTMLDivElement => {
-        const currentBuilding: HTMLDivElement = document.createElement("div");
-        currentBuilding.style.height = `${(Settings.getInstance().floorHeight) * Settings.getInstance().numFloors}px`;
-        return currentBuilding;
+    private createBuildingElement(): HTMLDivElement {
+        const el = document.createElement("div");
+        const settings = Settings.getInstance();
+        el.style.height = `${settings.floorHeight * settings.numFloors}px`;
+        return el;
     }
 
-    private createElevatorMenage = (): ElevatorMenagment => {
-        const elevatorManagement = Factory.getInstance().create("ElevatorMenagment", null);
-        elevatorManagement.elevatorsArea.style.height = `${Settings.getInstance().floorHeight * Settings.getInstance().numFloors}px`;
-        return elevatorManagement;
+    private createElevatorManagement(): ElevatorMenagment {
+        const manager = Factory.getInstance().create("ElevatorMenagment", null);
+        const settings = Settings.getInstance();
+        manager.elevatorsArea.style.height = `${settings.floorHeight * settings.numFloors}px`;
+        return manager;
     }
 
-    private createFloors = (): SingleFloor[] => {
-        this.floorsarea.style.minWidth = "160px"
-
+    private createFloors(): SingleFloor[] {
+        this.floorsArea.style.minWidth = "160px";
+        const settings = Settings.getInstance();
         const floors: SingleFloor[] = [];
 
-        for (let i = 0; i < Settings.getInstance().numFloors; i++) {
-            floors.push(Factory.getInstance().create("SingleFloor", [this, (Settings.getInstance().numFloors - i - 1)]));
+        for (let i = 0; i < settings.numFloors; i++) {
+            const floorNumber = settings.numFloors - i - 1;
+            floors.push(Factory.getInstance().create("SingleFloor", [this, floorNumber]));
         }
+
         return floors;
     }
-    
-    get mycurrentBuilding(): HTMLDivElement {
+
+    get myCurrentBuilding(): HTMLDivElement {
         return this.currentBuilding;
     }
 
-
-
-    getOrder = (floorNum: number, onArrival: () => void): number | false => {
+    getOrder(floorNum: number, onArrival: () => void): number | false {
         return this.elevatorManagement.getOrder(floorNum, onArrival);
     }
-    
 
-    appFloors = (): void => {
-        this.floorsarea.classList.add("columFlex");
-        this.floors.forEach((floor) => {
-            floor.appendToParent(this.floorsarea);
+    private appendFloors(): void {
+        this.floorsArea.classList.add("columFlex");
+        this.floors.forEach(floor => {
+            floor.appendToParent(this.floorsArea);
         });
-        this.currentBuilding.appendChild(this.floorsarea);
+        this.currentBuilding.appendChild(this.floorsArea);
     }
-    
-    appElevator = (): void => {
+
+    private appendElevators(): void {
         const elevatorContainer = document.createElement("div");
         elevatorContainer.classList.add("elevator-management");
         this.elevatorManagement.appendToParent(elevatorContainer);
         this.currentBuilding.appendChild(elevatorContainer);
     }
 
-    appendToParent = (parent: HTMLElement): void => {
+    appendToParent(parent: HTMLElement): void {
         this.currentBuilding.classList.add("rowFlex");
-        this.appFloors();
-        this.appElevator();
-
+        this.appendFloors();
+        this.appendElevators();
         parent.appendChild(this.currentBuilding);
     }
-    
 }
-

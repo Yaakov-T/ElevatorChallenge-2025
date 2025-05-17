@@ -1,4 +1,4 @@
-class Settings {
+export class Settings {
     private static instance: Settings | null = null;
 
     private NumBuildings: number = 2;
@@ -6,8 +6,8 @@ class Settings {
     private NumElevators: number = 3;
     private SecondsToStay: number = 2;
     private FloorHeight: number = 120;
-    private elevatorSRC: string = `./elements/elv.png`
-    private audioSRC: string = `./elements/ding.mp3`
+    private elevatorSRC: string = `./elements/elv.png`;
+    private audioSRC: string = `./elements/ding.mp3`;
 
     private constructor() {}
 
@@ -18,11 +18,31 @@ class Settings {
         return Settings.instance;
     }
 
-    get floorHeight(): number { return this.FloorHeight; }
-    get numBuildings(): number { return this.NumBuildings; }
-    get numFloors(): number { return this.NumFloors; }
-    get numElevators(): number { return this.NumElevators; }
-    get elevator(): string { return this.elevatorSRC; }
-    get audio(): string { return this.audioSRC; }
-    get secondsToStay(): number { return this.SecondsToStay; }
+    get floorHeight(): number {
+        return this.FloorHeight;
+    }
+
+    get numBuildings(): number {
+        return this.NumBuildings;
+    }
+
+    get numFloors(): number {
+        return this.NumFloors;
+    }
+
+    get numElevators(): number {
+        return this.NumElevators;
+    }
+
+    get elevator(): string {
+        return this.elevatorSRC;
+    }
+
+    get audio(): string {
+        return this.audioSRC;
+    }
+
+    get secondsToStay(): number {
+        return this.SecondsToStay;
+    }
 }

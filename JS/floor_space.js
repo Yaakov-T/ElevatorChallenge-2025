@@ -1,13 +1,12 @@
-"use strict";
-class FloorSpace {
+export class FloorSpace {
     constructor() {
-        this.appendToParent = (parent) => {
-            parent.appendChild(this.space);
-        };
-        this.space = document.createElement('div');
-        this.space.classList.add("floor");
+        this.element = document.createElement('div');
+        this.element.classList.add("floor");
     }
     get floorSpace() {
-        return this.space;
+        return this.element;
+    }
+    appendToParent(parent) {
+        parent.appendChild(this.element);
     }
 }

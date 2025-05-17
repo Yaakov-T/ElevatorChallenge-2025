@@ -1,5 +1,13 @@
-"use strict";
-class Factory {
+import { Building } from './building.js';
+import { ElevatorMenagment } from './elevator_menagment.js';
+import { FloorSpace } from './floor_space.js';
+import { Line } from './line.js';
+import { ArrivalDisplay } from './arrival_display.js';
+import { Elevator } from './elevator.js';
+import { ElevatorButton } from './elevator_button.js';
+import { BuildingsSystem } from './buildingsSystem.js';
+import { SingleFloor } from './singleFloor.js';
+export class Factory {
     constructor() {
         this.create = (className, parameter) => {
             if (parameter === null) {
@@ -45,4 +53,3 @@ Factory.getInstance = () => {
     }
     return Factory.instance;
 };
-;

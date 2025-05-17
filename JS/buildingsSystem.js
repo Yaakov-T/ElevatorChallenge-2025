@@ -1,5 +1,6 @@
-"use strict";
-class BuildingsSystem {
+import { Factory } from './factory.js';
+import { Settings } from './settings.js';
+export class BuildingsSystem {
     constructor(buildingErea) {
         this.createBuildings = () => {
             for (let i = 0; i < Settings.getInstance().numBuildings; i++) {

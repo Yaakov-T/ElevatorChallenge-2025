@@ -1,14 +1,24 @@
-class Factory {
+import { Building } from './building.js';
+import { ElevatorMenagment } from './elevator_menagment.js';
+import { FloorSpace } from './floor_space.js';
+import { Line } from './line.js';
+import { ArrivalDisplay } from './arrival_display.js';
+import { Elevator } from './elevator.js';
+import { ElevatorButton } from './elevator_button.js';
+import { BuildingsSystem } from './buildingsSystem.js';
+import { SingleFloor } from './singleFloor.js';
+
+export class Factory {
     private static instance: Factory | null = null;
 
-    private constructor() { }
+    private constructor() {}
 
     static getInstance = (): Factory => {
         if (!Factory.instance) {
             Factory.instance = new Factory();
         }
         return Factory.instance;
-    }
+    };
 
     create = (className: string, parameter: any): any => {
         if (parameter === null) {
@@ -38,5 +48,5 @@ class Factory {
         } else {
             throw new Error('Invalid class name provided.');
         }
-    }
-};
+    };
+}

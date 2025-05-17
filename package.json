@@ -4,10 +4,11 @@
   "description": "",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "tsc --watch"
-  },
+"scripts": {
+  "build": "tsc -p TS",
+  "watch": "tsc --watch -p TS",
+  "predeploy": "npm run build"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

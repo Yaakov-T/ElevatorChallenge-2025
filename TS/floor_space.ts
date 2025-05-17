@@ -1,16 +1,16 @@
-class FloorSpace {
-    private space: HTMLDivElement;
+export class FloorSpace {
+    private readonly element: HTMLDivElement;
 
     constructor() {
-        this.space = document.createElement('div');
-        this.space.classList.add("floor");
+        this.element = document.createElement('div');
+        this.element.classList.add("floor");
     }
 
-    get floorSpace():HTMLDivElement{
-        return this.space;
+    get floorSpace(): HTMLDivElement {
+        return this.element;
     }
-    
-    appendToParent = (parent: HTMLElement): void => {
-        parent.appendChild(this.space);
+
+    appendToParent(parent: HTMLElement): void {
+        parent.appendChild(this.element);
     }
 }
